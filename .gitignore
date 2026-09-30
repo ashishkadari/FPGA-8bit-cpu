@@ -1,0 +1,22 @@
+# Quartus generated files
+db/
+incremental_db/
+output_files/
+
+# Backup files
+*.bak
+
+# Quartus temporary files
+*.rpt
+*.summary
+*.qws
+*.jdi
+*.pin
+*.done
+
+# Questa/ModelSim generated files
+transcript
+modelsim.ini
+vsim.wlf
+work/
+rtl_work/
