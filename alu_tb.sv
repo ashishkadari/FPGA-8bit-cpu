@@ -77,8 +77,25 @@ module alu_tb;
             $display("NOT TEST FAILED");
         else
             $display("NOT TEST PASSED");
+        
+		  a = 8'b00010000;
+        operation = 3'b110;
+        #10;
 
+        if (result != 8'b00100000)
+            $display("SHL TEST FAILED");
+        else
+            $display("SHL TEST PASSED");
+		  
+		  a = 8'b00100000;
+        operation = 3'b111;
+        #10;
 
+        if (result != 8'b00010000)
+            $display("SHR TEST FAILED");
+        else
+            $display("SHR TEST PASSED");
+		
         $stop;
 
     end
