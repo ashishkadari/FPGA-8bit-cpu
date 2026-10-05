@@ -39,6 +39,15 @@ module cpu_tb;
             $display("R2 TEST PASSED");
 
 
+        @(posedge clk);
+        #1;
+
+        if (dut.register_file_unit.registers[3] != 8'd30)
+            $display("R3 TEST FAILED");
+        else
+            $display("R3 TEST PASSED");
+
+
         $stop;
 
     end

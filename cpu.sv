@@ -28,6 +28,7 @@ module cpu (
     logic [7:0] read_data_b;
 
     logic [7:0] writeback_data;
+	 logic	 [7:0] alu_result;
 
     program_counter pc_unit (
         .clk(clk),
@@ -64,15 +65,14 @@ module cpu (
         .output_enable(output_enable)
     );
 
-    writeback_mux writeback_mux_unit (
-        .alu_result(8'b0),
-        .memory_data(8'b0),
-        .immediate(immediate),
-        .immediate_to_reg(immediate_to_reg),
-        .mem_to_reg(mem_to_reg),
-        .writeback_data(writeback_data)
-    );
-
+	writeback_mux writeback_mux_unit ( 
+    .alu_result(alu_result),
+    .memory_data(8'b0),
+    .immediate(immediate),
+    .immediate_to_reg(immediate_to_reg),
+    .mem_to_reg(mem_to_reg),
+    .writeback_data(writeback_data)
+);
     register_file register_file_unit (
         .clk(clk),
         .read_addr_a(rs1),
@@ -84,4 +84,10 @@ module cpu (
         .write_enable(reg_write)
     );
 
+	 alu alu_unit (
+		.a(read_data_a),
+		.b(read_data_b),
+		.operation(alu_operation),
+		.result(alu_result)
+		);
 endmodule
