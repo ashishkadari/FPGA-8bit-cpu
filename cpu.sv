@@ -1,6 +1,7 @@
 module cpu (
     input logic clk,
-    input logic reset
+    input logic reset,
+	 output logic [7:0] output_data
 );
 
     logic [7:0] pc;
@@ -29,10 +30,17 @@ module cpu (
 
     logic [7:0] writeback_data;
 	 logic	 [7:0] alu_result;
+	 logic [7:0] memory_data;
+	 logic branch_taken;
 
+	 
     program_counter pc_unit (
         .clk(clk),
         .reset(reset),
+		  .jump_enable(jump_enable),
+		  .branch_taken(branch_taken),
+		  .jump_address(address),
+		  .branch_offset(offset),
         .pc(pc)
     );
 
@@ -67,7 +75,7 @@ module cpu (
 
 	writeback_mux writeback_mux_unit ( 
     .alu_result(alu_result),
-    .memory_data(8'b0),
+    .memory_data(memory_data),
     .immediate(immediate),
     .immediate_to_reg(immediate_to_reg),
     .mem_to_reg(mem_to_reg),
@@ -90,4 +98,17 @@ module cpu (
 		.operation(alu_operation),
 		.result(alu_result)
 		);
+
+assign branch_taken = branch_enable && (read_data_a == read_data_b);
+assign output_data = output_enable ? read_data_a : 8'b0;
+	 
+	 data_memory data_memory_unit (
+	 .clk(clk),
+	 .address(address),
+	 .write_data(read_data_a),
+	 .write_enable(mem_write),
+	 .read_data(memory_data)
+	 );
+	 
+	 
 endmodule
